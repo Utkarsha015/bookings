@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Management</title>
+    <style>
+        body { 
+            font-family: Arial, sans-serif; 
+            display: flex; 
+            flex-direction: column; 
+            justify-content: center; 
+            align-items: center; 
+            height: 100vh; 
+            margin: 0; 
+            background: #f0f0f0; 
+        }
+        form, table { 
+            background: white; 
+            padding: 20px; 
+            border-radius: 8px; 
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); 
+            margin-bottom: 20px; 
+        }
+        input, button { 
+            display: block; 
+            width: 100%; 
+            margin: 10px 0; 
+            padding: 10px; 
+            border: 1px solid #ccc; 
+            border-radius: 5px; 
+        }
+        button { 
+            background: #007BFF; 
+            color: white; 
+            border: none; 
+            cursor: pointer; 
+        }
+        button:hover { 
+            background: #0056b3; 
+        }
+        table { 
+            width: 100%; 
+            border-collapse: collapse; 
+        }
+        th, td { 
+            border: 1px solid #ccc; 
+            padding: 10px; 
+            text-align: left; 
+        }
+        th { 
+            background-color: #f8f9fa; 
+        }
+        .delete-btn { 
+            background: #dc3545; 
+            color: white; 
+            border: none; 
+            padding: 5px 10px; 
+            border-radius: 4px; 
+            cursor: pointer; 
+        }
+        .delete-btn:hover { 
+            background: #c82333; 
+        }
+    </style>
+</head>
+<body>
+    <form id="bookForm">
+        <h2>Add a Book</h2>
+        <input type="text" id="title" placeholder="Book Title" required>
+        <input type="text" id="author" placeholder="Author" required>
+        <input type="number" id="year" placeholder="Year of Publication" required>
+        <button type="submit">Add Book</button>
+    </form>
+    <table id="bookTable">
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>Author</th>
+                <th>Year</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+    <script>
+        const bookForm = document.getElementById('bookForm');
+        const bookTableBody = document.querySelector('#bookTable tbody');
+
+        bookForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const title = document.getElementById('title').value.trim();
+            const author = document.getElementById('author').value.trim();
+            const year = document.getElementById('year').value.trim();
+
+            if (title && author && year) {
+                addBookToTable(title, author, year);
+                bookForm.reset();
+            } else {
+                alert("Please fill in all fields.");
+            }
+        });
+
+        function addBookToTable(title, author, year) {
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td>${title}</td>
+                <td>${author}</td>
+                <td>${year}</td>
+                <td><button class="delete-btn" onclick="deleteBook(this)">Delete</button></td>
+            `;
+            bookTableBody.appendChild(row);
+        }
+
+        function deleteBook(button) {
+            const row = button.parentElement.parentElement;
+            row.remove();
+        }
+    </script>
+</body>
+</html>
